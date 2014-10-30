@@ -35,7 +35,7 @@ instance SemiIsoFunctor Printer where
     simap ai (Printer f) = Printer (apply ai >=> f)
 
 instance SemiIsoApply Printer where
-    sipure _ = Printer (\_ -> Right mempty)
+    sipure ai = Printer (\a -> either Left (\_ -> Right mempty) (apply ai a))
     (Printer f) /*/ (Printer g) = Printer (\(a, b) -> (<>) <$> f a <*> g b)
 
 instance SemiIsoAlternative Printer where
