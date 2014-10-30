@@ -1,5 +1,5 @@
 name:                syntax-pretty
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Syntax instance for pretty, the pretty printing library.
 license:             MIT
 license-file:        LICENSE
