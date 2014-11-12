@@ -21,6 +21,7 @@ import           Control.Monad
 import           Data.Monoid
 import           Data.SemiIsoFunctor
 import           Data.Syntax
+import           Data.Syntax.Char
 import           Data.Text (Text)
 import qualified Data.Text as T
 import qualified Text.PrettyPrint as P
@@ -55,3 +56,9 @@ instance Syntax Printer Text where
    takeTill1 p = Printer (printText <=< notNull . T.takeWhile p)
      where notNull t | T.null t  = Left "takeTill1: failed"
                      | otherwise = Right t
+
+instance SyntaxChar Printer Text where
+    decimal = Printer (format . toInteger)
+      where format i | i < 0 = Left "decimal: negative number"
+                     | otherwise = Right (P.integer i)
+    scientific = Printer (Right . P.text . show)
