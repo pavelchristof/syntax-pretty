@@ -47,15 +47,15 @@ printText :: Text -> Either String P.Doc
 printText = Right . P.text . T.unpack
 
 instance Syntax Printer Text where
-   anyChar = Printer (Right . P.char)
-   take n = Printer (printText . T.take n)
-   takeWhile p = Printer (printText . T.takeWhile p)
-   takeWhile1 p = Printer (printText <=< notNull . T.takeWhile p)
-     where notNull t | T.null t  = Left "takeWhile1: failed"
-                     | otherwise = Right t
-   takeTill1 p = Printer (printText <=< notNull . T.takeWhile p)
-     where notNull t | T.null t  = Left "takeTill1: failed"
-                     | otherwise = Right t
+    anyChar = Printer (Right . P.char)
+    take n = Printer (printText . T.take n)
+    takeWhile p = Printer (printText . T.takeWhile p)
+    takeWhile1 p = Printer (printText <=< notNull . T.takeWhile p)
+      where notNull t | T.null t  = Left "takeWhile1: failed"
+                      | otherwise = Right t
+    takeTill1 p = Printer (printText <=< notNull . T.takeWhile p)
+      where notNull t | T.null t  = Left "takeTill1: failed"
+                      | otherwise = Right t
 
 instance SyntaxChar Printer Text where
     decimal = Printer (format . toInteger)
