@@ -43,6 +43,12 @@ instance SemiIsoAlternative Printer where
     siempty = Printer (\_ -> Left "error")
     (Printer f) /|/ (Printer g) = Printer (\a -> f a <|> g a)
 
+instance SemiIsoMonad Printer where
+    (Printer f) //= g = Printer (\(a, b) -> (<>) <$> f a <*> runPrinter (g a) b)
+
+instance SemiIsoFix Printer where
+    sifix f = Printer $ \a -> runPrinter (f a) a
+
 printText :: Text -> Either String P.Doc
 printText = Right . P.text . T.unpack
 
